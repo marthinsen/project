@@ -1,0 +1,3 @@
+run a.py and b.py as python a.py and python b.py
+
+requires scipy and numpy 
