@@ -9,11 +9,11 @@ on a randomly rough surface with pertubation theory.
 """
 
 from numpy import *
-from matplotlib .pyplot import *
+from matplotlib.pyplot import *
 from scipy.integrate import quad, Inf
 
 # Physical constant
-c       = 3e8	                                # Speed of light [m/s]
+c       = 299792458	                            # Speed of light [m/s]
 
 
 # Incoming wave
@@ -23,7 +23,7 @@ omega   = 2 * pi * c / lambd                    # Frequancy of incoming wave [Hz
 
 
 # Scattered Wave
-N       = 19 
+N       = 179 
 Theta_s = linspace(-89, 89, num=N) * pi/180   	# Scattering angles [rad]
 Q		= omega / c * sin( Theta_s )			# Scattering wave number parallell to x1 [1/m]
 I11		= zeros(N)  	                        # Array for the 1-1 moments of
@@ -172,7 +172,6 @@ def iterate11():
         T11    = sigma**2 \
                   * abs(V1(q,k))**2 \
                   * power(q-k)
-
         I11[i] = Ixx(theta0, Theta_s[i], T11)
 
 def iterate22():
@@ -183,15 +182,14 @@ def iterate22():
         q      = Q[i]
         
         fRe = lambda p: ( A2x(q, p, k) \
-                        * (A2x(q, p, k) + A2x(q, q + k - p, k)).conjugate() ) \
+                        * (A2x(q, p, k) + A2x(q, q + k - p, k)).conjugate() ).real \
                       * power(q - p) * power(p - k)
-                        
         lim    = [-1e10, -2e7, -1e7, 1e7, 2e7, 1e10] 
         
         Re = sum([quad(fRe, lim[j], lim[j+1])[0] for j in xrange(len(lim)-1)])
 
-        T22    = sigma**4 / (2*pi) * (Re)\
-    
+        T22    = sigma**4 / (2*pi) * (Re)
+     
         I22[i] = Ixx(theta0, Theta_s[i], T22 / 4)
 
 def iterate31():
@@ -241,6 +239,4 @@ if __name__ == "__main__":
     #iterate31()
     
     writeIt()
-    plotIt()
-
-    print I31
+    #plotIt()

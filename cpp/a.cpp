@@ -16,12 +16,86 @@ const double          sigma = 5e-9;
 const double          a     = 100e-9;
 
 // Incoming wave
-const double theta0 = 40*M_PI/180;
+      double theta0 = 40*M_PI/180;
 const double lambda = 457.9e-9;
 const double omega  = 2*M_PI*c/lambda;
 
 // Scattered wave
-const double N = 201;
+int N = 201;
+
+double power(double k);
+complex<double> alpha0(double k);
+complex<double> alpha(double k);
+complex<double> G0(double k);
+complex<double> V1(double q, double k);
+complex<double> V2(double q, double p,double k);
+complex<double> A2x(double q, double p, double k);
+complex<double> A3(double q, double p, double r, double k);
+double intA311Re(double p, void * params);
+double intA311Im(double p, void * params);
+complex<double> A311(double q, double k);
+double intT22(double p, void * params);
+double Ixx(double q, double k, double Txx);
+void readInput(void);
+
+int main(void)
+{
+  	readInput();
+
+  	double k = omega/c*sin(theta0);
+	cout << "Iterating over the 11 term" << endl;
+	vector<double> I11; 
+	for(int i=0; i<N; ++i)
+	{
+		double q = omega/c*sin((-89+i*178./(N-1))*M_PI/180);
+		double T11 = pow(sigma,2)*abs(pow(V1(q,k),2))*power(q-k);
+		I11.push_back( Ixx(q, k, T11) );
+	}
+		
+	cout << "Iterating over the 22 term" << endl;
+	vector<double> I22; 
+	for(int i=0; i<N; ++i)
+	{
+		printf("%4.1f %%\n", 1.*i*100/N); 
+		double q = omega/c*sin((-89+i*178./(N-1))*M_PI/180);
+		double lim[] = {-1e10, -2e7, -1e7, 1e7, 2e7, 1e10};
+		int  lims = sizeof(lim)/sizeof(double);
+		double Int = 0;
+		gsl_integration_workspace * w = gsl_integration_workspace_alloc (1000);
+	    double result, error;
+		double params[] = {q,k};
+		gsl_function FUNC;
+	    FUNC.function = &intT22;
+		FUNC.params   = &params;
+	    for(int j=1; j<lims; ++j) 
+		{
+			gsl_integration_qags (&FUNC, lim[j-1], lim[j], 0, 1e-7, 1000, w, &result, &error);
+			Int += result;
+		}
+		double T22 = pow(sigma,4) /2/M_PI * Int;
+		I22.push_back( Ixx(q, k, T22/4) );
+	}
+
+	cout << "Iterating over the 31 term" << endl;
+	vector<double> I31; 
+	for(int i=0; i<N; ++i)
+	{
+		printf("%4.1f %%\n", 1.*i*100/N); 
+		double q = omega/c*sin((-89+i*178./(N-1))*M_PI/180);
+		double T31 = pow(sigma,4)/2./M_PI*real(conj(V1(q,k))*A311(q,k))*power(q-k);
+		I31.push_back( Ixx(q, k, T31/3));
+	}
+	  
+	FILE * File;
+	File = fopen ("out.dat","w");
+	for(int i=0; i<N; ++i)
+	{
+	  	double theta = -89+i*178./(N-1);
+		fprintf(File, "%e\t%e\t%e\t%e\n", theta, I11[i], I22[i], I31[i]);
+	}
+	fclose (File);
+	return 0;
+}
 
 double power(double k)
 {
@@ -113,13 +187,11 @@ double intA311Im(double p, void * params)
 
 complex<double> A311(double q, double k)
 {
-	double Int = 0;
 	gsl_integration_workspace * w = gsl_integration_workspace_alloc (1000);
 	double result, error;
 	double params[] = {q,k};
 	double IntRe = 0; double IntIm = 0;
-    double s = real(omega/c*sqrt(eps/(eps+1.))); double d = 5e5;
-    double lim[] = {0, s-k-d, s-k+d, s-q-d, s-q+d, s+k-d, s+k+d, s+q-d, s+q+d, 5e7, 8e7, 1e8, 1e11};
+    double lim[] = {-1e11, -1e8, 1e7, 1e6, 0, 1e6, 1e7, 1e8, 1e11};
 	int  lims = sizeof(lim)/sizeof(double);
 	gsl_function funcRe;
 	funcRe.function = &intA311Re;
@@ -152,59 +224,27 @@ double Ixx(double q, double k, double Txx)
 	return  2/M_PI *pow(omega/c,3) *pow(cos(vs),2) *cos(v0) *pow(abs(G0(k)),2) *pow(abs(G0(q)),2) *Txx;
 }
 
-int main(void)
+void readInput(void)
 {
-  	double k = omega/c*sin(theta0);
-	cout << "Iterating over the 11 term" << endl;
-	vector<double> I11; 
-	for(int i=0; i<N; ++i)
+	FILE *input = fopen("par.in", "r");
+	if ( input == NULL )
 	{
-		double q = omega/c*sin((-89+i*178./(N-1))*M_PI/180);
-		double T11 = pow(sigma,2)*abs(pow(V1(q,k),2))*power(q-k);
-		I11.push_back( Ixx(q, k, T11) );
-	}
-		
-	cout << "Iterating over the 22 term" << endl;
-	vector<double> I22; 
-	for(int i=0; i<N; ++i)
-	{
-		printf("%4.1f %%\n", 1.*i*100/N); 
-		double q = omega/c*sin((-89+i*178./(N-1))*M_PI/180);
-		double lim[] = {-1e10, -2e7, -1e7, 1e7, 2e7, 1e10};
-		int  lims = sizeof(lim)/sizeof(double);
-		double Int = 0;
-		gsl_integration_workspace * w = gsl_integration_workspace_alloc (1000);
-	    double result, error;
-		double params[] = {q,k};
-		gsl_function FUNC;
-	    FUNC.function = &intT22;
-		FUNC.params   = &params;
-	    for(int j=1; j<lims; ++j) 
-		{
-			gsl_integration_qags (&FUNC, lim[j-1], lim[j], 0, 1e-7, 1000, w, &result, &error);
-			Int += result;
-		}
-		double T22 = pow(sigma,4) /2/M_PI * Int;
-		I22.push_back( Ixx(q, k, T22/4) );
+		printf("Unable to read inputfile \'par.in\'");
+		return;
 	}
 
-	cout << "Iterating over the 31 term" << endl;
-	vector<double> I31; 
-	for(int i=0; i<N; ++i)
-	{
-		printf("%4.1f %%\n", 1.*i*100/N); 
-		double q = omega/c*sin((-89+i*178./(N-1))*M_PI/180);
-		double T31 = pow(sigma,4)/2./M_PI*real(conj(V1(q,k))*A311(q,k))*power(q-k);
-		I31.push_back( Ixx(q, k, T31/3));
-	}
-	  
-	FILE * File;
-	File = fopen ("out.dat","w");
-	for(int i=0; i<N; ++i)
-	{
-	  	double theta = -89+i*178./(N-1);
-		fprintf(File, "%e\t%e\t%e\t%e\n", theta, I11[i], I22[i], I31[i]);
-	}
-	fclose (File);
-	return 0;
+	char line[80];
+	if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%d", &N) )
+		printf("Problem reading frequence.\n");
+	else
+		printf("Will evaluate %d points.\n", N);
+
+	double v;
+	if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf", &v) )
+		printf("Problem reading frequence.\n");
+	else
+		printf("At incident angle %f", (float)v);
+	theta0 = v*M_PI/180.;
+
+	return;
 }
