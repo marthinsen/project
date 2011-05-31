@@ -1,4 +1,4 @@
-TARGET	= exe
+TARGET	= main
 CC		= g++
 RM		= rm -f
 CFLAGS	= -g -Wall

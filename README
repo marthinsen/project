@@ -1,3 +1,52 @@
-run a.py and b.py as python a.py and python b.py
+					Diffuse scattering calculation
 
-requires scipy and numpy 
+What is it?
+-----------
+
+Computes the mean diffusive scattering intensity for planar incident light 
+scatered on random rough surface, with given statistical properties.
+
+Version history
+---------------
+
+Version 0.1 - First beta release
+
+Known issues
+------------
+
+The software does no validity checks on the input parameters, so other input
+than default values may cause problems. 
+
+In use
+------
+
+Linux:
+	1.	Download from  https://github/marthinsen/project
+	2.	Run *make*
+	4.	Edit par.in as one wish
+	3.	Run *./exe*
+
+Prerequisites
+-------------
+Gnu Scientific Library (GSL) installed in path where 
+
+
+Compability
+-----------
+
+This software has been tested under the following platforms
+	- Ubuntu Linux 11.04 32-bit
+
+Licencing
+---------
+
+If it's up to me the software is free to use and distributed as you like,
+but it would be nice if you give me some credit for my work if you use it.
+
+Contact
+-------
+
+Eirik Marthinsen
+NTNU, Trondheim
+eirikma@stud.ntnu.no
+May 31, 2011

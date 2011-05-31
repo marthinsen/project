@@ -19,31 +19,37 @@
 #ifndef DIFFSCATT_H
 #define DIFFSCATT_H
 
-class DiffScatt
-{
-  private:
-	double power(double k);
-	complex<double> alpha (double k);
-	complex<double> alpha0 (double k);
-	complex<double> G0 (double k);
-	complex<double> A1 (double q, double k);
-	complex<double> A2 (double q, double p, double k);
-	complex<double> A3 (double q, double p, double r, double k);
-	double integrandA311Re (double p, void * params);
-	double integrandA311Im (double p, void * params);
-	complex<double> A311 (double q, double k);
-	double integrandT22 (double p, void * params);
-	double Ixx (double q, double k, double Txx);
+#include <complex>
+#include <vector>
+using namespace std;
 
-  public:
-	void iterate11(double * result, int n, double = -89, double = 89);
-	void iterate22(double * result, int n, double = -89, double = 89);
-	void iterate31(double * result, int n, double = -89, double = 89);
+enum CorrFunc {Gauss = 1, WestOD};
 
-	// Surface variables
-	double a = 100e-9;
-	double sigma = 5e-9;
-	complex<double> eps (-7.5, 0.24);
-}
+// Call these to calculate the diffuse scattering intensity
+void iterate11 (vector<double>* I11, int n, double theta = 0, double min = -89, double max = 89);
+void iterate22 (vector<double>* I22, int n, double theta = 0, double min = -89, double max = 89);
+void iterate31 (vector<double>* I31, int n, double theta = 0, double min = -89, double max = 89);
+
+// Surface variables
+extern double a, sigma;
+extern complex<double> eps;
+extern CorrFunc corr;
+
+// Incoming wave
+extern double omega;
+
+// Functions
+double power(double k);
+complex<double> alpha (double k);
+complex<double> alpha0 (double k);
+complex<double> G0 (double k);
+complex<double> A1 (double q, double k);
+complex<double> A2 (double q, double p, double k);
+complex<double> A3 (double q, double p, double r, double k);
+complex<double> A311 (double q, double k);
+double integrandA311Re (double p, void * params);
+double integrandA311Im (double p, void * params);
+double integrandT22 (double p, void * params);
+double Ixx (double q, double k, double Txx);
 
 #endif
