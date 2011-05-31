@@ -1,22 +1,3 @@
-/*
- * =====================================================================================
- *
- *       Filename:  main.cpp
- *
- *    Description:  Compute the mean diffusive intesity of scattered light on rough 
- *    				surface.
- *
- *        Version:  1.0
- *        Created:  31/05/11 12:10:45
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  Eirik Marthinsen (eirikma@stud.ntnu.no), 
- *        Company:  NTNU, Trondheim
- *
- * =====================================================================================
- */
-
 #include "diffscatt.h"
 #include <iostream>
 #include <stdio.h>
@@ -33,11 +14,9 @@ double angMax = 89;
 // Function declaration
 void readInput();
 
-/* 
- */
+
 int main ( int argc, char *argv[] )
 {
-  	// Read inputfile if any
 	readInput();
 
 	// Iterating
@@ -61,9 +40,6 @@ int main ( int argc, char *argv[] )
 	return 0;
 }
 
-/*
- * Reads inputfile 'par.in'
- */
 void readInput ()
 {
 	 FILE *input = fopen("par.in", "r");
@@ -116,5 +92,11 @@ void readInput ()
 		cout << "Using epsilon = " << Re << " + " << Im << "i" << endl;
 		eps = complex<double>(Re,Im);
 	}
+
+    if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf", &sigma) )
+        printf("Problem reading rms height sigma.\n");
+    else
+        cout << "Using sigma = " << sigma << endl;
+
     return;
 }

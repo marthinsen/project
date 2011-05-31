@@ -5,3 +5,4 @@
 0.82    	# Power spectrum parameter km [omega/c]
 1.29    	# Power spectrum parameter kp [omega/c]
 -7.5+i0.24	# Epsilon
+5e-9		# Sigma
