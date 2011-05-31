@@ -30,21 +30,32 @@
 #define c 299792458
 #define im complex<double>(0,1)
 
+// Incoming wave
+double omega  = 2*M_PI*c/457.9e-9;
+
 // Surface constants 
 complex<double> eps (-7.5,0.24);
 double          sigma = 5e-9;
 double          a     = 100e-9;
-
-// Incoming wave
-double omega  = 2*M_PI*c/457.9e-9;
+double 			km    = 0.82 * omega/c;
+double 			kp    = 1.29 * omega/c;
 
 // Surface Correlation function
-CorrFunc corr = Gauss;
+int corr = 1;
 
 
 double power(double k)
 {
-	return sqrt(M_PI)*a*exp(-k*k*a*a/4);
+	if(corr == 1)
+		return sqrt(M_PI)*a*exp(-k*k*a*a/4);
+	else
+	{
+	  	printf(".");
+		if( (-kp < k && k< -km) || (km < k && k < kp) )
+			return M_PI/(kp+km);
+		else
+			return 0;
+	}
 }
 
 complex<double> alpha0(double k)

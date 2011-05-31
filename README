@@ -1,4 +1,4 @@
-					Diffuse scattering calculation
+                    Diffuse scattering calculation
 
 What is it?
 -----------
@@ -21,13 +21,14 @@ In use
 ------
 
 Linux:
-	1.	Download from  https://github/marthinsen/project
-	2.	Run *make*
+	1.	Download from  https://github.com/marthinsen/project
+	2.	Run 'make'
 	4.	Edit par.in as one wish
-	3.	Run *./exe*
+	3.	Run './main'
 
 Prerequisites
 -------------
+
 Gnu Scientific Library (GSL) installed in path where 
 
 

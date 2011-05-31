@@ -73,18 +73,48 @@ void readInput ()
          return;
      }
  
-     char line[80];
-     if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%d", &N) )
-         printf("Problem reading frequence.\n");
-     else
-         printf("Will evaluate %d points.\n", N);
+    char line[80];
+    if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%d", &N) )
+        printf("Problem reading number of points to evaluate.\n");
+    else
+        printf("Will evaluate %d points.\n", N);
  
-     double v;
-     if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf", &v) )
-         printf("Problem reading frequence.\n");
-     else
-         printf("At incident angle %f", (float)v);
-     theta0 = v*M_PI/180.;
+    double v;
+    if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf", &v) )
+        printf("Problem reading incident angle.\n");
+    else
+	{
+		printf("At incident angle %f\n", (float)v);
+		theta0 = v*M_PI/180.;
+	}
+
+    if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%d", &corr) )
+        printf("Problem reading correlation function.\n");
+    else
+        cout << "Using correlationfunction " << corr << endl;
  
-     return;
+    if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf", &a) )
+        printf("Problem reading transverse correlation length.\n");
+    else
+        cout << "Using a = " <<  a << endl;
+
+    if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf", &km) )
+        printf("Problem reading power spectrum parameter k-.\n");
+    else
+        cout << "Using k- = " << km << endl;
+
+    if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf", &kp) )
+        printf("Problem reading power spectrum parameter k+.\n");
+    else
+        cout << "Using k+ = " << kp << endl;
+
+	double Re, Im;
+    if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf+i%lf", &Re, &Im) )
+        printf("Problem reading epsilon.\n");
+    else
+	{
+		cout << "Using epsilon = " << Re << " + " << Im << "i" << endl;
+		eps = complex<double>(Re,Im);
+	}
+    return;
 }

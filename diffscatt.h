@@ -23,17 +23,15 @@
 #include <vector>
 using namespace std;
 
-enum CorrFunc {Gauss = 1, WestOD};
-
 // Call these to calculate the diffuse scattering intensity
 void iterate11 (vector<double>* I11, int n, double theta = 0, double min = -89, double max = 89);
 void iterate22 (vector<double>* I22, int n, double theta = 0, double min = -89, double max = 89);
 void iterate31 (vector<double>* I31, int n, double theta = 0, double min = -89, double max = 89);
 
 // Surface variables
-extern double a, sigma;
+extern double a, sigma, kp, km;
 extern complex<double> eps;
-extern CorrFunc corr;
+extern int corr;
 
 // Incoming wave
 extern double omega;
