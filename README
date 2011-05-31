@@ -4,7 +4,7 @@ What is it?
 -----------
 
 Computes the mean diffusive scattering intensity for planar incident light 
-scatered on random rough surface, with given statistical properties.
+scattered on random rough surface, with given statistical properties.
 
 Version history
 ---------------
@@ -29,11 +29,12 @@ Linux:
 Prerequisites
 -------------
 
-Gnu Scientific Library (GSL) installed in path where 
+Gnu Scientific Library (GSL) installed in path where (Or tweaking with 
+Makefile is necessary). Installed gnu c++ compiler g++.
 
 
-Compability
------------
+Compatibility
+-------------
 
 This software has been tested under the following platforms
 	- Ubuntu Linux 11.04 32-bit
