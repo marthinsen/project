@@ -7,7 +7,7 @@ using namespace std;
 
 // Number of points to evaluate
 int 		N = 179;
-double theta0 = 40;
+double theta0 = 0;
 double angMin = -89;
 double angMax = 89;
 
@@ -23,9 +23,9 @@ int main ( int argc, char *argv[] )
 	vector<double> I11;
 	vector<double> I22;
 	vector<double> I31;
-	iterate11(&I11, N, theta0);
-	iterate22(&I22, N, theta0);
-	iterate31(&I31, N, theta0);
+	iterate11(&I11, N, theta0, angMin, angMax);
+	iterate22(&I22, N, theta0, angMin, angMax);
+	iterate31(&I31, N, theta0, angMin, angMax);
 
 	// Writing output
 	FILE * File;
@@ -55,14 +55,10 @@ void readInput ()
     else
         printf("Will evaluate %d points.\n", N);
  
-    double v;
-    if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf", &v) )
+    if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf", &theta0) )
         printf("Problem reading incident angle.\n");
     else
-	{
-		printf("At incident angle %f\n", (float)v);
-		theta0 = v*M_PI/180.;
-	}
+		printf("At incident angle %.1f\n", theta0);
 
     if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%d", &corr) )
         printf("Problem reading correlation function.\n");
@@ -97,6 +93,16 @@ void readInput ()
         printf("Problem reading rms height sigma.\n");
     else
         cout << "Using sigma = " << sigma << endl;
+
+    if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf", &angMin) )
+        printf("Problem reading rms height Minimum angle.\n");
+    else
+        cout << "Using angMin = " << angMin << endl;
+
+    if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf", &angMax) )
+        printf("Problem reading rms height Maximum angle.\n");
+    else
+        cout << "Using angMax = " << angMax << endl;
 
     return;
 }

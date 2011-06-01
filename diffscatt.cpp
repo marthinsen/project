@@ -179,7 +179,7 @@ void iterate11 (vector<double>* I11, int n, double theta, double min, double max
 	double k = omega/c*sin((theta)*M_PI/180);
 	for(int i=0; i<n; ++i)
 	{
-		double q = omega/c*sin((-min+i*(max-min)/(n-1))*M_PI/180);
+		double q = omega/c*sin((min+i*(max-min)/(n-1))*M_PI/180);
 		double T11 = pow(sigma,2)*abs(pow(A1(q,k),2))*power(q-k);
 		I11->push_back( Ixx(q, k, T11) );
 	}
@@ -191,8 +191,8 @@ void iterate22 (vector<double>* I22, int n, double theta, double min, double max
 	double k = omega/c*sin((theta)*M_PI/180);
 	for(int i=0; i<n; ++i)
 	{
-		printf("%4.1f %%\n", 1.*i*100/n); 
-		double q = omega/c*sin((-min+i*(max-min)/(n-1))*M_PI/180);
+		printf("%4.1f %%\n", i*100./n); 
+		double q = omega/c*sin((min+i*(max-min)/(n-1))*M_PI/180);
 		double lim[] = {-1e10, -2e7, -1e7, 1e7, 2e7, 1e10};
 		int  lims = sizeof(lim)/sizeof(double);
 		double Int = 0;
@@ -217,8 +217,8 @@ void iterate31 (vector<double>* I31, int n, double theta, double min, double max
 	double k = omega/c*sin((theta)*M_PI/180);
 	for(int i=0; i<n; ++i)
 	{
-		printf("%4.1f %%\n", 1.*i*100/n); 
-		double q = omega/c*sin((-min+i*(max-min)/(n-1))*M_PI/180);
+		printf("%4.1f %%\n", i*100./n); 
+		double q = omega/c*sin((min+i*(max-min)/(n-1))*M_PI/180);
 		double T31 = pow(sigma,4)/2./M_PI*real(conj(A1(q,k))*A311(q,k))*power(q-k);
 		I31->push_back( Ixx(q, k, T31/3));
 	}
