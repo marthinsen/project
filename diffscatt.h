@@ -29,7 +29,7 @@ void iterate22 (vector<double>* I22, int n, double theta = 0, double min = -89, 
 void iterate31 (vector<double>* I31, int n, double theta = 0, double min = -89, double max = 89);
 
 // Surface variables
-extern double a, sigma, kp, km;
+extern double a, sigma, km, kp, km2, kp2;
 extern complex<double> eps;
 extern int corr;
 

@@ -39,6 +39,8 @@ double          sigma = 5e-9;
 double          a     = 100e-9;
 double 			km    = 0.82 * omega/c;
 double 			kp    = 1.29 * omega/c;
+double 			km2   = 2.048 * omega/c;
+double 			kp2   = 2.248 * omega/c;
 
 // Surface Correlation function
 int corr = 1;
@@ -46,14 +48,24 @@ int corr = 1;
 
 double power(double k)
 {
-	if(corr == 1)
-		return sqrt(M_PI)*a*exp(-k*k*a*a/4);
-	else
+	switch (corr)
 	{
-	  	printf(".");
-		if( (-kp < k && k< -km) || (km < k && k < kp) )
-			return M_PI/(kp+km);
-		else
+  		case 1:
+	  		return sqrt(M_PI)*a*exp(-k*k*a*a/4);
+			break;
+		case 2:
+			if( (-kp < k && k< -km) || (km < k && k < kp) )
+				return M_PI/(kp + km);
+			else
+				return 0;
+			break;
+		case 3:
+			if( (-kp < k && k < -km) || (km < k && k < kp) )
+				return M_PI/(kp + km);
+			else if ( (-kp2 < k && k < -km2) || (km2 < k && k < kp2) )
+				return M_PI/(kp2 + km2);
+		default:
+			cout << "Unrecognized correlation function" << endl;
 			return 0;
 	}
 }

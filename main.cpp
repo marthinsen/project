@@ -50,6 +50,8 @@ void readInput ()
      }
  
     char line[80];
+	fgets(line, sizeof(line), input);
+
     if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%d", &N) )
         printf("Problem reading number of points to evaluate.\n");
     else
@@ -80,6 +82,16 @@ void readInput ()
     else
         cout << "Using k+ = " << kp << endl;
 
+    if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf", &km2) )
+        printf("Problem reading power spectrum parameter k-2.\n");
+    else
+        cout << "Using k2- = " << km << endl;
+
+    if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf", &kp2) )
+        printf("Problem reading power spectrum parameter k+2.\n");
+    else
+        cout << "Using k2+ = " << kp << endl;
+
 	double Re, Im;
     if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf+i%lf", &Re, &Im) )
         printf("Problem reading epsilon.\n");
@@ -90,17 +102,17 @@ void readInput ()
 	}
 
     if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf", &sigma) )
-        printf("Problem reading rms height sigma.\n");
+        printf("Problem reading sigma.\n");
     else
         cout << "Using sigma = " << sigma << endl;
 
     if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf", &angMin) )
-        printf("Problem reading rms height Minimum angle.\n");
+        printf("Problem reading minimum angle.\n");
     else
         cout << "Using angMin = " << angMin << endl;
 
     if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%lf", &angMax) )
-        printf("Problem reading rms height Maximum angle.\n");
+        printf("Problem reading maximum angle.\n");
     else
         cout << "Using angMax = " << angMax << endl;
 

@@ -1,6 +1,6 @@
 #!/usr/bin/gnuplot
 
-set terminal tikz standalone color solid size 9cm,8cm
+set terminal tikz standalone color solid size 7cm,6.222cm
 set output "polarplot.tex"
 
 # Settingup stuff 
@@ -40,5 +40,5 @@ set arrow from .015*cos(90) ,.015*sin(90)  to .013*cos(90)  ,.013*sin(90)  fille
 set arrow from .015*cos(130),.015*sin(130) to .013*cos(130) ,.013*sin(130) filled ls 2
 
 # Plotting the totoal mean diffusive scattering intensity
-plot 'res0.dat' using (-$1+90):($2+$3) with lines ls 1,\
-	 'res40.dat' using (-$1+90):($2+$3) with lines ls 2
+plot 'res0final.dat' using (-$1+90):($2+$3-$4) with lines ls 1,\
+	 'res40final.dat' using (-$1+90):($2+$3-$4) with lines ls 2
