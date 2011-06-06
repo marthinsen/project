@@ -49,9 +49,7 @@ void readInput ()
          return;
      }
  
-    char line[80];
-	fgets(line, sizeof(line), input);
-
+    char line[156];
     if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%d", &N) )
         printf("Problem reading number of points to evaluate.\n");
     else

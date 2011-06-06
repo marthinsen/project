@@ -64,6 +64,8 @@ double power(double k)
 				return M_PI/(kp + km);
 			else if ( (-kp2 < k && k < -km2) || (km2 < k && k < kp2) )
 				return M_PI/(kp2 + km2);
+			else
+				return 0;
 		default:
 			cout << "Unrecognized correlation function" << endl;
 			return 0;
