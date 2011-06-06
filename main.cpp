@@ -25,7 +25,7 @@ int main ( int argc, char *argv[] )
 	vector<double> I31;
 	iterate11(&I11, N, theta0, angMin, angMax);
 	iterate22(&I22, N, theta0, angMin, angMax);
-	iterate31(&I31, N, theta0, angMin, angMax);
+//	iterate31(&I31, N, theta0, angMin, angMax);
 
 	// Writing output
 	FILE * File;
@@ -33,7 +33,7 @@ int main ( int argc, char *argv[] )
 	for(int i=0; i<N; ++i)
 	{
 		double theta = angMin+i*(angMax-angMin)/(N-1);
-		fprintf(File, "%e\t%e\t%e\t%e\n", theta, I11[i], I22[i], I31[i]);
+		fprintf(File, "%e\t%e\t%e\t%e\n", theta, I11[i], I22[i], 0.);//I31[i]);
 	}
 	fclose (File);
 
@@ -49,9 +49,7 @@ void readInput ()
          return;
      }
  
-    char line[80];
-	fgets(line, sizeof(line), input);
-
+    char line[156];
     if( !fgets(line, sizeof(line), input ) || !sscanf( line, "%d", &N) )
         printf("Problem reading number of points to evaluate.\n");
     else

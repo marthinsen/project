@@ -64,6 +64,8 @@ double power(double k)
 				return M_PI/(kp + km);
 			else if ( (-kp2 < k && k < -km2) || (km2 < k && k < kp2) )
 				return M_PI/(kp2 + km2);
+			else return 0;
+			break;
 		default:
 			cout << "Unrecognized correlation function" << endl;
 			return 0;
@@ -92,9 +94,23 @@ complex<double> A1(double q, double k)
 	return im*(eps-1.)/pow(eps,2)*(eps*q*k-alpha(q)*alpha(k));
 }
 
+complex<double> V2(double q, double p, double k)
+{
+	complex<double> ak, ap, aq, a0k;
+	ak = alpha(k); ap = alpha(p); aq = alpha(q); a0k = alpha0(k);
+	complex<double> term1, term2;
+	term1 = im*(eps-1.)/pow(eps,2)*2.*p/(q+k)
+	  		*(aq+ak)*(q*k-aq*ak);
+	  		//*(eps*aq*q*k - pow(aq,2)*ak + q*k*ak - aq*pow(a0k,2)*eps);
+	term2 = 2.*im*pow(eps-1.,2)/pow(eps,3)*aq*ap*ak;
+			//-2.*im*pow(eps-1.,2)/pow(eps,3)*aq*(eps*p*k-ap*ak);
+	return term1+term2;
+}
+
 complex<double> A2(double q, double p, double k)
 {
-	return 2.*A1(q,p)*G0(p)*A1(p,k);
+	return V2(q,p,k) 
+	  		+ 2.*A1(q,p)*G0(p)*A1(p,k);
 }
 
 complex<double> A3(double q, double p, double r, double k)

@@ -42,6 +42,7 @@ complex<double> alpha (double k);
 complex<double> alpha0 (double k);
 complex<double> G0 (double k);
 complex<double> A1 (double q, double k);
+complex<double> V2 (double q, double p, double k);
 complex<double> A2 (double q, double p, double k);
 complex<double> A3 (double q, double p, double r, double k);
 complex<double> A311 (double q, double k);
