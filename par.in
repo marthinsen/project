@@ -1,0 +1,12 @@
+60			# Number of points to evaluate 
+40.			# Angle of incidence [deg]
+1			# Surface correlation function (Gauss, WestOD, WestODouble)
+100e-9    	# Transverse correlation length a (Gaussian) [m] Only in use for Gauss
+0.82    	# Power spectrum parameter km  [omega/c] Only in use for WestOD
+1.29    	# Power spectrum parameter kp  [omega/c] Only in use for WestOD
+2.048    	# Power spectrum parameter km2 [omega/c] Only in use for WestODouble
+2.248    	# Power spectrum parameter kp2 [omega/c] Only in use for WestODouble
+-7.5+i0.24	# Epsilon
+5e-9		# Sigma [m]
+-90.		# Evaluating from scattering angle [deg]
+90. 		# To scattering angle [deg]
