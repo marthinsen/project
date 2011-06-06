@@ -221,7 +221,7 @@ void iterate22 (vector<double>* I22, int n, double theta, double min, double max
 	{
 		printf("%4.1f %%\n", i*100./n); 
 		double q = omega/c*sin((min+i*(max-min)/(n-1))*M_PI/180);
-		double lim[] = {-1e10, -2e7, -1e7, 1e7, 2e7, 1e10};
+		double lim[] = {-1e15, -1e10, -2e7, -1e7, 1e7, 2e7, 1e10, 1e15};
 		int  lims = sizeof(lim)/sizeof(double);
 		double Int = 0;
 		gsl_integration_workspace * w = gsl_integration_workspace_alloc (1000);

@@ -1,4 +1,4 @@
-60			# Number of points to evaluate 
+50000			# Number of points to evaluate 
 40.			# Angle of incidence [deg]
 1			# Surface correlation function (Gauss, WestOD, WestODouble)
 100e-9    	# Transverse correlation length a (Gaussian) [m] Only in use for Gauss
