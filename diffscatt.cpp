@@ -66,6 +66,7 @@ double power(double k)
 				return M_PI/(kp2 + km2);
 			else
 				return 0;
+			break;
 		default:
 			cout << "Unrecognized correlation function" << endl;
 			return 0;
@@ -94,9 +95,22 @@ complex<double> A1(double q, double k)
 	return im*(eps-1.)/pow(eps,2)*(eps*q*k-alpha(q)*alpha(k));
 }
 
+complex<double> V2(double q, double p, double k)
+{
+	complex<double> ak, ap, aq, a0k;
+	ak = alpha(k); ap = alpha(p); aq = alpha(q); a0k = alpha0(k);
+	complex<double> term1, term2;
+	term1 = im*(eps-1.)/pow(eps,2)*2.*(p-k)/(q-k)*(aq+ak)*(q*k-aq*ak);
+	//term1 = im*(eps-1.)/pow(eps,2)*2.*p/(q+k)*(eps*aq*q*k - pow(aq,2)*ak + q*k*ak - aq*pow(a0k,2)*eps);
+	term2 = 2.*im*pow(eps-1.,2)/pow(eps,3)*aq*ap*ak;
+	//term2 = -2.*im*pow(eps-1.,2)/pow(eps,3)*aq*(eps*p*k-ap*ak);
+	return term1+term2;
+}
+
 complex<double> A2(double q, double p, double k)
 {
-	return 2.*A1(q,p)*G0(p)*A1(p,k);
+	return V2(q,p,k) 
+	  		+ 2.*A1(q,p)*G0(p)*A1(p,k);
 }
 
 complex<double> A3(double q, double p, double r, double k)
@@ -178,7 +192,7 @@ double integrandT22(double p, void * params)
     double *param = (double *)params;
 	double q = *(double *) param++;
 	double k = *(double *) param;
-	return real(A2(q,p,k)*conj(A2(q,p,k) + A2(q,q+k+p,k))*power(q-p)*power(p-k));
+	return real(  A2(q,p,k) * conj( A2(q,p,k) + A2(q,q+k-p,k) ) ) * power(q-p) * power(p-k);
 }
 
 double Ixx(double q, double k, double Txx)
@@ -207,7 +221,7 @@ void iterate22 (vector<double>* I22, int n, double theta, double min, double max
 	{
 		printf("%4.1f %%\n", i*100./n); 
 		double q = omega/c*sin((min+i*(max-min)/(n-1))*M_PI/180);
-		double lim[] = {-1e10, -2e7, -1e7, 1e7, 2e7, 1e10};
+		double lim[] = {-1e15, -1e10, -2e7, -1e7, 1e7, 2e7, 1e10, 1e15};
 		int  lims = sizeof(lim)/sizeof(double);
 		double Int = 0;
 		gsl_integration_workspace * w = gsl_integration_workspace_alloc (1000);

@@ -18,6 +18,18 @@ void readInput();
 int main ( int argc, char *argv[] )
 {
 	readInput();
+	
+//	double q = omega/3e8*sin(-39*M_PI/180);
+//	double k = omega/3e8*sin(40*M_PI/180);
+//	double params[] = {q,k};
+//	FILE * file = fopen("int.dat", "w");
+//	double range = 2.e7;
+//	for(int i=0; i<N; ++i)
+//	{
+//	  	double p = -range +i*range*2./(N-1.);
+//	  	double integrand = integrandT22(p, &params);
+//		fprintf(file, "%e\t%e\n", p, integrand);
+//	}return 0;
 
 	// Iterating
 	vector<double> I11;
@@ -25,7 +37,7 @@ int main ( int argc, char *argv[] )
 	vector<double> I31;
 	iterate11(&I11, N, theta0, angMin, angMax);
 	iterate22(&I22, N, theta0, angMin, angMax);
-	iterate31(&I31, N, theta0, angMin, angMax);
+//	iterate31(&I31, N, theta0, angMin, angMax);
 
 	// Writing output
 	FILE * File;
@@ -33,7 +45,7 @@ int main ( int argc, char *argv[] )
 	for(int i=0; i<N; ++i)
 	{
 		double theta = angMin+i*(angMax-angMin)/(N-1);
-		fprintf(File, "%e\t%e\t%e\t%e\n", theta, I11[i], I22[i], I31[i]);
+		fprintf(File, "%e\t%e\t%e\t%e\n", theta, I11[i], I22[i], 0.);//I31[i]);
 	}
 	fclose (File);
 
