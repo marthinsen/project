@@ -100,7 +100,7 @@ complex<double> V2(double q, double p, double k)
 	complex<double> ak, ap, aq, a0k;
 	ak = alpha(k); ap = alpha(p); aq = alpha(q); a0k = alpha0(k);
 	complex<double> term1, term2;
-	term1 = im*(eps-1.)/pow(eps,2)*2.*(p-k)/(q-k)*(aq+ak)*(q*k-aq*ak);
+	term1 = im*(eps-1.)/pow(eps,2)*2.*p/(q+k ? (q+k) : 1)*(aq+ak)*(q*k-aq*ak);
 	//term1 = im*(eps-1.)/pow(eps,2)*2.*p/(q+k)*(eps*aq*q*k - pow(aq,2)*ak + q*k*ak - aq*pow(a0k,2)*eps);
 	term2 = 2.*im*pow(eps-1.,2)/pow(eps,3)*aq*ap*ak;
 	//term2 = -2.*im*pow(eps-1.,2)/pow(eps,3)*aq*(eps*p*k-ap*ak);
