@@ -19,17 +19,17 @@ int main ( int argc, char *argv[] )
 {
 	readInput();
 	
-	double q = omega/3e8*sin(-39*M_PI/180);
-	double k = omega/3e8*sin(40*M_PI/180);
-	double params[] = {q,k};
-	FILE * file = fopen("int.dat", "w");
-	double range = 2.e7;
-	for(int i=0; i<N; ++i)
-	{
-	  	double p = -range +i*range*2./(N-1.);
-	  	double integrand = integrandT22(p, &params);
-		fprintf(file, "%e\t%e\n", p, integrand);
-	}return 0;
+//	double q = omega/3e8*sin(-39*M_PI/180);
+//	double k = omega/3e8*sin(40*M_PI/180);
+//	double params[] = {q,k};
+//	FILE * file = fopen("int.dat", "w");
+//	double range = 2.e7;
+//	for(int i=0; i<N; ++i)
+//	{
+//	  	double p = -range +i*range*2./(N-1.);
+//	  	double integrand = integrandT22(p, &params);
+//		fprintf(file, "%e\t%e\n", p, integrand);
+//	}return 0;
 
 	// Iterating
 	vector<double> I11;

@@ -99,11 +99,10 @@ complex<double> V2(double q, double p, double k)
 	complex<double> ak, ap, aq, a0k;
 	ak = alpha(k); ap = alpha(p); aq = alpha(q); a0k = alpha0(k);
 	complex<double> term1, term2;
-	term1 = im*(eps-1.)/pow(eps,2)*2.*p/(q+k)
-	  		*(aq+ak)*(q*k-aq*ak);
-	  		//*(eps*aq*q*k - pow(aq,2)*ak + q*k*ak - aq*pow(a0k,2)*eps);
+	term1 = im*(eps-1.)/pow(eps,2)*2.*(p-k)/(q-k)*(aq+ak)*(q*k-aq*ak);
+	//term1 = im*(eps-1.)/pow(eps,2)*2.*p/(q+k)*(eps*aq*q*k - pow(aq,2)*ak + q*k*ak - aq*pow(a0k,2)*eps);
 	term2 = 2.*im*pow(eps-1.,2)/pow(eps,3)*aq*ap*ak;
-			//-2.*im*pow(eps-1.,2)/pow(eps,3)*aq*(eps*p*k-ap*ak);
+	//term2 = -2.*im*pow(eps-1.,2)/pow(eps,3)*aq*(eps*p*k-ap*ak);
 	return term1+term2;
 }
 
@@ -192,7 +191,7 @@ double integrandT22(double p, void * params)
     double *param = (double *)params;
 	double q = *(double *) param++;
 	double k = *(double *) param;
-	return real(A2(q,p,k)*conj(A2(q,p,k) + A2(q,q+k+p,k))*power(q-p)*power(p-k));
+	return real(  A2(q,p,k) * conj( A2(q,p,k) + A2(q,q+k-p,k) ) ) * power(q-p) * power(p-k);
 }
 
 double Ixx(double q, double k, double Txx)
